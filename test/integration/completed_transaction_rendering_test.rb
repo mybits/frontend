@@ -2,7 +2,6 @@
 require 'integration_test_helper'
 
 class CompletedTransactionRenderingTest < ActionDispatch::IntegrationTest
-
   context "a completed transaction edition" do
     should "hide organ donor registration promotion when presentation toggle is not present" do
       artefact = artefact_for_slug "no-organ-donation-registration-promotion"

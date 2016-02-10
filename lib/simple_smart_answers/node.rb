@@ -30,10 +30,10 @@ module SimpleSmartAnswers
 
     def build_option(details)
       OpenStruct.new({
-        :question => self,
-        :label => details["label"],
-        :slug => details["slug"],
-        :next_node_slug => details["next_node"],
+        question: self,
+        label: details["label"],
+        slug: details["slug"],
+        next_node_slug: details["next_node"],
       })
     end
   end

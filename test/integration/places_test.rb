@@ -83,7 +83,7 @@ class PlacesTest < ActionDispatch::IntegrationTest
       assert page.has_content?("Further information")
 
       within "ul" do
-        assert page.has_selector?("li", :text => "Proof of identification required")
+        assert page.has_selector?("li", text: "Proof of identification required")
       end
     end
 
@@ -93,7 +93,7 @@ class PlacesTest < ActionDispatch::IntegrationTest
   context "given a valid postcode" do
     setup do
       stub_request(:get, GdsApi::TestHelpers::Imminence::IMMINENCE_API_ENDPOINT + "/places/find-passport-offices.json?limit=10&postcode=SW1A%201AA").
-        to_return(:body => @places.to_json, :status => 200)
+        to_return(body: @places.to_json, status: 200)
 
       visit "/passport-interview-office"
       fill_in "Enter a postcode", with: "SW1A 1AA"
@@ -118,7 +118,7 @@ class PlacesTest < ActionDispatch::IntegrationTest
           assert page.has_content?("London")
           assert page.has_content?("SW1V 1PN")
 
-          assert page.has_link?("http://www.example.com/london_ips...", :href => "http://www.example.com/london_ips_office")
+          assert page.has_link?("http://www.example.com/london_ips...", href: "http://www.example.com/london_ips_office")
           assert page.has_content?("Phone: 0800 123 4567")
 
           assert page.has_content?("Monday to Saturday 8.00am - 6.00pm.")
@@ -133,7 +133,7 @@ class PlacesTest < ActionDispatch::IntegrationTest
       @places = []
 
       stub_request(:get, GdsApi::TestHelpers::Imminence::IMMINENCE_API_ENDPOINT + "/places/find-passport-offices.json?limit=10&postcode=SW1A%201AA").
-        to_return(:body => @places.to_json, :status => 200)
+        to_return(body: @places.to_json, status: 200)
 
       visit "/passport-interview-office"
       fill_in "Enter a postcode", with: "SW1A 1AA"
@@ -152,7 +152,7 @@ class PlacesTest < ActionDispatch::IntegrationTest
   context "given an invalid postcode" do
     setup do
       stub_request(:get, GdsApi::TestHelpers::Imminence::IMMINENCE_API_ENDPOINT + "/places/find-passport-offices.json?limit=10&postcode=SW1A%202AA").
-        to_return(:status => 400)
+        to_return(status: 400)
 
       visit "/passport-interview-office"
       fill_in "Enter a postcode", with: "SW1A 2AA"

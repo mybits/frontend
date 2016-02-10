@@ -1,7 +1,6 @@
 require "slimmer/headers"
 
 class SearchController < ApplicationController
-
   before_filter :setup_slimmer_artefact, only: :index
   before_filter :set_expiry
   before_filter :remove_search_box
@@ -12,13 +11,13 @@ class SearchController < ApplicationController
     search_params = SearchParameters.new(params)
 
     if search_params.no_search? && params[:format] != "json"
-      render action: 'no_search_term' and return
+      render(action: 'no_search_term') && return
     end
     search_response = search_client.search(search_params)
 
     @search_term = search_params.search_term
 
-    if (search_response["scope"].present?)
+    if search_response["scope"].present?
       @results = ScopedSearchResultsPresenter.new(search_response, search_params)
     else
       @results = SearchResultsPresenter.new(search_response, search_params)
@@ -56,6 +55,6 @@ protected
   end
 
   def setup_slimmer_artefact
-    set_slimmer_dummy_artefact(:section_name => "Search", :section_link => "/search")
+    set_slimmer_dummy_artefact(section_name: "Search", section_link: "/search")
   end
 end

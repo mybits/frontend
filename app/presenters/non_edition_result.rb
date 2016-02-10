@@ -45,7 +45,7 @@ private
 
     org_titles = orgs.map { |org|
       if org["acronym"] && org["acronym"] != org["title"]
-        "<abbr title='#{h(org["title"])}'>#{h(org["acronym"])}</abbr>"
+        "<abbr title='#{h(org['title'])}'>#{h(org['acronym'])}</abbr>"
       else
         org["title"] || org["slug"]
       end

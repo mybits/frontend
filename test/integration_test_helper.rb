@@ -35,19 +35,19 @@ class ActionDispatch::IntegrationTest
 
   def content_api_has_an_artefact_with_optional_location(slug, body = artefact_for_slug(slug))
     GdsApi::TestHelpers::ContentApi::ArtefactStub.new(slug)
-        .with_response_body(body)
-        .stub
+      .with_response_body(body)
+      .stub
     GdsApi::TestHelpers::ContentApi::ArtefactStub.new(slug)
-        .with_query_parameters(latitude: -0.18832238262617113, longitude: 51.112777245292826)
-        .with_response_body(body)
-        .stub
+      .with_query_parameters(latitude: -0.18832238262617113, longitude: 51.112777245292826)
+      .with_response_body(body)
+      .stub
   end
 
   def content_api_has_a_draft_artefact(slug, version, body = artefact_for_slug(slug))
     GdsApi::TestHelpers::ContentApi::ArtefactStub.new(slug)
-        .with_query_parameters(edition: version)
-        .with_response_body(body)
-        .stub
+      .with_query_parameters(edition: version)
+      .with_response_body(body)
+      .stub
   end
 
   def assert_page_has_content(text)

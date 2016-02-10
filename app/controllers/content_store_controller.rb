@@ -1,5 +1,4 @@
 class ContentStoreController < RootController
-
   def content_store_test
     base_path = "/test-for-content-store/#{params[:path]}"
     item = content_store.content_item(base_path)
@@ -17,4 +16,3 @@ class ContentStoreController < RootController
     @content_store ||= GdsApi::ContentStore.new(Plek.current.find("content-store"))
   end
 end
-

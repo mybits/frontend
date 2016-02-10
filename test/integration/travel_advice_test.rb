@@ -94,7 +94,7 @@ class TravelAdviceTest < ActionDispatch::IntegrationTest
 
       # For some reason PhantomJS isn't executing this script at the top of the <body> element,
       # so we have to repeat it here.
-      page.execute_script %Q(document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');)
+      page.execute_script %(document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');)
 
       assert page.has_selector?("#country-filter")
 
@@ -166,7 +166,7 @@ class TravelAdviceTest < ActionDispatch::IntegrationTest
       assert page.has_selector?("h1", text: "Summary")
 
       within '.country-metadata' do
-        assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime("%e %B %Y")}")
+        assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime('%e %B %Y')}")
         assert page.has_content?("Updated: 23 April 2013")
         assert page.has_selector?("p", text: "The issue with the Knights of Ni has been resolved.")
       end
@@ -191,7 +191,7 @@ class TravelAdviceTest < ActionDispatch::IntegrationTest
       within('.page-navigation') { click_on "Page Two" }
       assert_equal 200, page.status_code
 
-      within 'head', :visible => :all do
+      within 'head', visible: :all do
         assert page.has_selector?("title", text: "Turks and Caicos Islands extra special travel advice", visible: :all)
         assert page.has_selector?("link[rel=alternate][type='application/json'][href='/api/foreign-travel-advice/turks-and-caicos-islands.json']", visible: :all)
       end
@@ -255,7 +255,7 @@ class TravelAdviceTest < ActionDispatch::IntegrationTest
 
         within '#summary' do
           assert page.has_selector?("h1", text: "Summary")
-          assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime("%e %B %Y")}")
+          assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime('%e %B %Y')}")
           assert page.has_content?("Updated: 23 April 2013")
           within '.application-notice.help-notice' do
             assert page.has_content?("The FCO advise against all travel to parts of the country")
@@ -286,7 +286,7 @@ class TravelAdviceTest < ActionDispatch::IntegrationTest
       visit "/foreign-travel-advice/luxembourg"
       assert_equal 200, page.status_code
 
-      within 'head', :visible => :all do
+      within 'head', visible: :all do
         assert page.has_selector?("title", text: "Luxembourg travel advice", visible: :all)
         assert page.has_selector?("link[rel=alternate][type='application/json'][href='/api/foreign-travel-advice/luxembourg.json']", visible: :all)
       end
@@ -298,14 +298,13 @@ class TravelAdviceTest < ActionDispatch::IntegrationTest
 
       assert ! page.has_selector?('.page-navigation')
 
-      assert page.has_no_selector?("h1", :text => "Summary")
+      assert page.has_no_selector?("h1", text: "Summary")
 
-      assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime("%e %B %Y")}")
+      assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime('%e %B %Y')}")
       assert page.has_content?("Updated: 31 January 2013")
 
-      assert page.has_selector?("p", :text => "There are no parts of Luxembourg that the FCO recommends avoiding.")
+      assert page.has_selector?("p", text: "There are no parts of Luxembourg that the FCO recommends avoiding.")
     end
-
   end
 
   should "return a not found response for a country which does not exist" do
@@ -339,7 +338,7 @@ class TravelAdviceTest < ActionDispatch::IntegrationTest
 
       assert page.has_content?("Summary")
 
-      assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime("%e %B %Y")}")
+      assert page.has_content?(de_dup_spaces "Still current at: #{Date.today.strftime('%e %B %Y')}")
       assert page.has_content?("Updated: 23 April 2013")
 
       assert page.has_content?("This is the summary")

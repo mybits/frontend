@@ -5,7 +5,6 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
   include GdsApi::TestHelpers::Mapit
 
   context "given a licence which exists in licensify" do
-
     setup do
       mapit_has_a_postcode_and_areas("SW1A 1AA", [51.5010096, -0.1415870], [
         { "ons" => "00BK", "name" => "Westminster City Council", "type" => "LBO" },
@@ -21,7 +20,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
           "licence_overview" => "You only live twice, Mr Bond.\n",
           "licence" => {
             "location_specific" => true,
-            "availability" => ["England","Wales"],
+            "availability" => %w(England Wales),
             "authorities" => [{
               "name" => "Westminster City Council",
               "slug" => "westminster",
@@ -38,7 +37,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
                     "description" => "Apply for your licence to kill",
                     "payment" => "none",
                     "introduction" => "This licence is issued shaken, not stirred."
-                  },{
+                  }, {
                     "url" => "/licence-to-kill/westminster/apply-2",
                     "description" => "Apply for your licence to hold gadgets",
                     "payment" => "none",
@@ -61,9 +60,9 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
 
       content_api_has_an_artefact('licence-to-kill', @artefact)
       GdsApi::TestHelpers::ContentApi::ArtefactStub.new('licence-to-kill')
-          .with_query_parameters(snac: '00BK', latitude: 51.5010096, longitude: -0.1415870)
-          .with_response_body(@artefact)
-          .stub
+        .with_query_parameters(snac: '00BK', latitude: 51.5010096, longitude: -0.1415870)
+        .with_response_body(@artefact)
+        .stub
     end
 
     context "when visiting the licence without specifying a location" do
@@ -84,7 +83,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
       setup do
         visit '/licence-to-kill'
 
-        fill_in 'postcode', :with => "SW1A 1AA"
+        fill_in 'postcode', with: "SW1A 1AA"
         click_button('Find')
       end
 
@@ -98,8 +97,8 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
 
       should "show available licence actions" do
         within("#content nav") do
-          assert page.has_link? "How to apply", :href => '/licence-to-kill/westminster/apply'
-          assert page.has_link? "How to renew", :href => '/licence-to-kill/westminster/renew'
+          assert page.has_link? "How to apply", href: '/licence-to-kill/westminster/apply'
+          assert page.has_link? "How to renew", href: '/licence-to-kill/westminster/renew'
         end
       end
 
@@ -110,11 +109,11 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
 
         should "display the page content" do
           assert page.has_content? "Licence to kill"
-          assert page.has_selector? "h1", :text => "How to apply"
+          assert page.has_selector? "h1", text: "How to apply"
         end
 
         should "display a button to apply for the licence" do
-          assert page.has_link? "Apply online", :href => "/licence-to-kill/westminster/apply-1"
+          assert page.has_link? "Apply online", href: "/licence-to-kill/westminster/apply-1"
         end
       end
 
@@ -138,7 +137,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
         mapit_does_not_have_a_bad_postcode("Not valid")
         visit '/licence-to-kill'
 
-        fill_in 'postcode', :with => "Not valid"
+        fill_in 'postcode', with: "Not valid"
         click_button('Find')
       end
 
@@ -157,7 +156,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
 
         visit '/licence-to-kill'
 
-        fill_in 'postcode', :with => "AB1 2AB"
+        fill_in 'postcode', with: "AB1 2AB"
         click_button('Find')
       end
 
@@ -202,7 +201,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
           "format" => "Licence",
           "licence" => {
             "location_specific" => false,
-            "availability" => ["England","Wales"],
+            "availability" => %w(England Wales),
             "authorities" => [{
               "name" => "Ministry of Plenty",
               "slug" => "miniplenty",
@@ -282,7 +281,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
 
         should "display interactions for licence" do
           click_on "How to apply"
-          assert page.has_link? "Apply online", :href => '/licence-to-turn-off-a-telescreen/minsitry-of-love/apply-1'
+          assert page.has_link? "Apply online", href: '/licence-to-turn-off-a-telescreen/minsitry-of-love/apply-1'
         end
       end
     end
@@ -297,7 +296,7 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
           "format" => "Licence",
           "licence" => {
             "location_specific" => false,
-            "availability" => ["England","Wales"],
+            "availability" => %w(England Wales),
             "authorities" => [{
               "name" => "Ministry of Love",
               "slug" => "miniluv",
@@ -327,13 +326,13 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
 
       should "show licence actions for the single authority" do
         within("#content nav") do
-          assert page.has_link? "How to apply", :href => '/licence-to-turn-off-a-telescreen/miniluv/apply'
+          assert page.has_link? "How to apply", href: '/licence-to-turn-off-a-telescreen/miniluv/apply'
         end
       end
 
       should "display the interactions for licence" do
         click_on "How to apply"
-        assert page.has_link? "Apply online", :href => '/licence-to-turn-off-a-telescreen/minsitry-of-love/apply-1'
+        assert page.has_link? "Apply online", href: '/licence-to-turn-off-a-telescreen/minsitry-of-love/apply-1'
       end
     end
   end
@@ -415,5 +414,4 @@ class LicenceLookupTest < ActionDispatch::IntegrationTest
       assert page.has_content?('Contact your local council')
     end
   end
-
 end

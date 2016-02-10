@@ -35,7 +35,7 @@ module CampaignHelper
   end
 
   def has_organisation?(publication)
-    organisation_attributes(publication).any? { |key, value|
+    organisation_attributes(publication).any? { |_key, value|
       value.present?
     }
   end

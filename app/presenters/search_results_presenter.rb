@@ -96,9 +96,7 @@ class SearchResultsPresenter
   end
 
   def next_page_link
-    if has_next_page?
-      search_parameters.build_link(start: next_page_start)
-    end
+    search_parameters.build_link(start: next_page_start) if has_next_page?
   end
 
   def previous_page_link
@@ -108,15 +106,11 @@ class SearchResultsPresenter
   end
 
   def next_page_label
-    if has_next_page?
-      "#{next_page_number} of #{total_pages}"
-    end
+    "#{next_page_number} of #{total_pages}" if has_next_page?
   end
 
   def previous_page_label
-    if has_previous_page?
-      "#{previous_page_number} of #{total_pages}"
-    end
+    "#{previous_page_number} of #{total_pages}" if has_previous_page?
   end
 
 private
@@ -124,9 +118,7 @@ private
   attr_reader :search_parameters, :search_response
 
   def next_page_start
-    if has_next_page?
-      search_parameters.start + search_parameters.count
-    end
+    search_parameters.start + search_parameters.count if has_next_page?
   end
 
   def previous_page_start

@@ -4,7 +4,7 @@ require 'licence_location_identifier'
 class LicenceLocationIdentifierTest < ActiveSupport::TestCase
   context "given an artefact exists with a local service for the district/unitary tiers" do
     setup do
-      @artefact = { "details" => { "licence" => { "local_service" => { "providing_tier" => [ "county", "unitary" ] } } } }
+      @artefact = { "details" => { "licence" => { "local_service" => { "providing_tier" => %w(county unitary) } } } }
     end
 
     should "select the correct tier authority from geostack providing a district and county" do
@@ -86,7 +86,7 @@ class LicenceLocationIdentifierTest < ActiveSupport::TestCase
 
     should "return nil when a geostack does not provide any authorities" do
       geostack = {
-        "council" => [ ]
+        "council" => []
       }
       snac = LicenceLocationIdentifier.find_snac(geostack)
 

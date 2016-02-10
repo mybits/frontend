@@ -86,7 +86,7 @@ private
   def organisations
     fetch_multi_valued_field("organisations").map do |organisation|
       if organisation["acronym"] && (organisation["acronym"] != organisation["title"])
-        "<abbr title='#{h(organisation["title"])}'>#{h(organisation["acronym"])}</abbr>"
+        "<abbr title='#{h(organisation['title'])}'>#{h(organisation['acronym'])}</abbr>"
       else
         organisation["title"] || organisation["slug"]
       end

@@ -1,7 +1,6 @@
 require 'integration_test_helper'
 
 class PageRenderingTest < ActionDispatch::IntegrationTest
-
   context "backend error handling" do
     context "backend timeout" do
       setup do
@@ -16,7 +15,7 @@ class PageRenderingTest < ActionDispatch::IntegrationTest
 
     context "backend 500 error" do
       setup do
-        stub_request(:get, "#{Plek.current.find('contentapi')}/my-item.json").to_return(:status => 500)
+        stub_request(:get, "#{Plek.current.find('contentapi')}/my-item.json").to_return(status: 500)
       end
 
       should "return 503" do
@@ -92,7 +91,7 @@ class PageRenderingTest < ActionDispatch::IntegrationTest
     within '#content' do
       assert page.has_content?("This is the video summary")
       assert page.has_selector?("figure#video a[href='https://www.youtube.com/watch?v=fLreo24WYeQ']")
-      assert page.has_selector?("figure#video a[href='https://www.example.org/test.xml']", :visible => :all)
+      assert page.has_selector?("figure#video a[href='https://www.example.org/test.xml']", visible: :all)
       assert page.has_content?("Video description")
     end
   end

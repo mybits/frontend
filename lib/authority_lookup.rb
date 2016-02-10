@@ -32,7 +32,7 @@ class AuthorityLookup
 
   def self.find_slug_from_code(type, code)
     self.load_authorities unless self.authorities
-    self.authorities.select do |slug, codes|
+    self.authorities.select do |_slug, codes|
       codes[type] == code.to_s
     end.keys.first
   end

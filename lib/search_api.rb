@@ -1,5 +1,4 @@
 class SearchAPI
-
   def initialize(rummager_api)
     @rummager_api = rummager_api
   end

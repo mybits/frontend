@@ -1,5 +1,4 @@
 class ContentItemPresenter < PublicationPresenter
-
   def slug
     URI.parse(base_path).path.sub(%r{\A/}, "")
   end

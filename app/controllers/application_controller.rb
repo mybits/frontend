@@ -23,11 +23,13 @@ class ApplicationController < ActionController::Base
 
 protected
   def error_404; error 404; end
+
   def error_410; error 410; end
+
   def error_503(e); error(503, e); end
 
   def error(status_code, exception = nil)
-    if exception and defined? Airbrake
+    if exception && defined? Airbrake
       env["airbrake.error_id"] = notify_airbrake(exception)
     end
     render status: status_code, text: "#{status_code} error"
@@ -67,16 +69,14 @@ protected
   end
 
   def set_expiry(duration = 30.minutes)
-    unless Rails.env.development?
-      expires_in(duration, :public => true)
-    end
+    expires_in(duration, public: true) unless Rails.env.development?
   end
 
   def set_slimmer_artefact_headers(artefact, slimmer_headers = {})
     slimmer_headers[:format] ||= artefact["format"]
     set_slimmer_headers(slimmer_headers)
     if artefact["format"] == "help_page"
-      set_slimmer_artefact_overriding_section(artefact, :section_name => "Help", :section_link => "/help")
+      set_slimmer_artefact_overriding_section(artefact, section_name: "Help", section_link: "/help")
     else
       set_slimmer_artefact(artefact)
     end
@@ -102,9 +102,7 @@ protected
 
   def validate_slug_param(param_name = :slug)
     param_to_use = params[param_name].sub(/(done|help)\//, '')
-    if param_to_use.parameterize != param_to_use
-      cacheable_404
-    end
+    cacheable_404 if param_to_use.parameterize != param_to_use
   rescue StandardError # Triggered by trying to parameterize malformed UTF-8
     cacheable_404
   end

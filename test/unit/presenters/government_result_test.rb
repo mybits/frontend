@@ -35,17 +35,17 @@ class GovernmentResultTest < ActiveSupport::TestCase
     result = GovernmentResult.new(SearchParameters.new({}), {
       "public_timestamp" => "2014-10-14",
       "display_type" => "my-display-type",
-      "organisations" => [ { "slug" => "org-1" } ],
-      "world_locations" => [ {"title" => "France", "slug" => "france"} ]
+      "organisations" => [{ "slug" => "org-1" }],
+      "world_locations" => [{"title" => "France", "slug" => "france"}]
     })
-    assert_equal result.metadata, [ '14 October 2014', 'my-display-type', 'org-1', 'France' ]
+    assert_equal result.metadata, ['14 October 2014', 'my-display-type', 'org-1', 'France']
   end
 
   should "return format for corporate information pages in metadata" do
     result = GovernmentResult.new(SearchParameters.new({}), {
       "format" => "corporate_information"
     })
-    assert_equal result.metadata, [ 'Corporate information' ]
+    assert_equal result.metadata, ['Corporate information']
   end
 
   should "return only display type for corporate information pages if it is present in metadata" do
@@ -53,7 +53,7 @@ class GovernmentResultTest < ActiveSupport::TestCase
       "display_type" => "my-display-type",
       "format" => "corporate_information"
     })
-    assert_equal result.metadata, [ "my-display-type" ]
+    assert_equal result.metadata, ["my-display-type"]
   end
 
   should "not return sections for deputy prime ministers office" do

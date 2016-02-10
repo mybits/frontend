@@ -9,10 +9,10 @@ require "location_error"
 class RootController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :set_content_security_policy, :only => [:index]
-  before_filter :set_expiry, :only => [:index, :tour]
-  before_filter :validate_slug_param, :only => [:publication]
-  before_filter :block_empty_format, :only => [:jobsearch, :publication]
+  before_filter :set_content_security_policy, only: [:index]
+  before_filter :set_expiry, only: [:index, :tour]
+  before_filter :validate_slug_param, only: [:publication]
+  before_filter :block_empty_format, only: [:jobsearch, :publication]
   rescue_from RecordNotFound, with: :cacheable_404
 
   PRINT_FORMATS = %w(guide programme)
@@ -51,7 +51,7 @@ class RootController < ApplicationController
     base_url = Plek.new.find('search') + "/unified_search.json"
     total_documents = JSON.parse(RestClient.get("#{base_url}?count=0"))['total']
 
-    random_page_number = Random.rand(0..total_documents-1)
+    random_page_number = Random.rand(0..total_documents - 1)
 
     random_document = RestClient.get("#{base_url}?count=1&fields=link&start=#{random_page_number}")
     result = JSON.parse(random_document)['results'][0]['link']
@@ -60,10 +60,10 @@ class RootController < ApplicationController
     result = "/#{result}" unless result.starts_with?("/")
 
     if result.starts_with?("/http")
-      expires_in(0.seconds, :public => true)
+      expires_in(0.seconds, public: true)
       redirect_to Plek.new.website_root + random_path
     else
-      expires_in(5.seconds, :public => true)
+      expires_in(5.seconds, public: true)
       redirect_to Plek.new.website_root + result
     end
   end
@@ -201,7 +201,7 @@ class RootController < ApplicationController
         end
       end
       format.json do
-        render :json => @publication.to_json
+        render json: @publication.to_json
       end
     end
   end
@@ -229,13 +229,13 @@ protected
     assert_found(publication)
     set_headers_from_publication(publication)
 
-    return publication
+    publication
   end
 
   def set_headers_from_publication(publication)
     set_slimmer_artefact_headers(publication.artefact)
     I18n.locale = publication.language if publication.language
-    set_expiry if params.exclude?('edition') and request.get?
+    set_expiry if params.exclude?('edition') && request.get?
     deny_framing if deny_framing?(publication)
   end
 
@@ -243,7 +243,7 @@ protected
     artefact = fetch_artefact(slug, edition, nil)
     places = fetch_places(artefact, postcode)
     publication = PublicationPresenter.new(artefact, places)
-    return publication
+    publication
   end
 
   def fetch_location(postcode)
@@ -258,7 +258,7 @@ protected
   end
 
   def fetch_places(artefact, postcode)
-    if postcode.present? and artefact.format == 'place'
+    if postcode.present? && artefact.format == 'place'
       Frontend.imminence_api.places_for_postcode(artefact.details.place_type, postcode, 10)
     end
   rescue GdsApi::HTTPErrorResponse => e
@@ -276,7 +276,7 @@ protected
 
   # request.format.html? returns 5 when the request format is video.
   def treat_as_standard_html_request?
-    !request.format.json? and !request.format.print? and !request.format.video?
+    !request.format.json? && !request.format.print? && !request.format.video?
   end
 
   def local_transaction_details(artefact, authority_slug, snac)
@@ -291,9 +291,9 @@ protected
 
   def identifier_class_for_format(format)
     case format
-      when "licence" then LicenceLocationIdentifier
-      when "local_transaction" then LocalTransactionLocationIdentifier
-      else raise(Exception, "No location identifier available for #{format}")
+    when "licence" then LicenceLocationIdentifier
+    when "local_transaction" then LocalTransactionLocationIdentifier
+    else raise(Exception, "No location identifier available for #{format}")
     end
   end
 
@@ -318,7 +318,7 @@ protected
   end
 
   def non_location_specific_licence_present?(publication)
-    publication.format == 'licence' and publication.details['licence'] and !publication.details['licence']['location_specific']
+    publication.format == 'licence' && publication.details['licence'] && !publication.details['licence']['location_specific']
   end
 
   def deny_framing
@@ -326,7 +326,7 @@ protected
   end
 
   def deny_framing?(publication)
-    ['transaction', 'local_transaction'].include? publication.format
+    %w(transaction local_transaction).include? publication.format
   end
 
   def local_authority_match?(interaction_details)

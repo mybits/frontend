@@ -10,7 +10,7 @@ class ArtefactRetriever
     self.statsd = statsd
     self.supported_formats = supported_formats ||
       %w{answer business_support campaign completed_transaction guide help_page licence
-         local_transaction place programme simple_smart_answer transaction 
+         local_transaction place programme simple_smart_answer transaction
          travel-advice video}
   end
 
@@ -29,7 +29,7 @@ class ArtefactRetriever
       raise RecordNotFound
     elsif e.code == 410
       raise RecordArchived
-    elsif e.code and e.code >= 500
+    elsif e.code && e.code >= 500
       statsd.increment("content_api_error")
     end
     raise
@@ -39,18 +39,18 @@ class ArtefactRetriever
   end
 
   protected
-    def verify_format_supported?(artefact)
-      unless supported_formats.include?(artefact['format'])
-        raise UnsupportedArtefactFormat
-      end
+  def verify_format_supported?(artefact)
+    unless supported_formats.include?(artefact['format'])
+      raise UnsupportedArtefactFormat
     end
+  end
 
-    def artefact_options(snac, location, edition)
-      options = { snac: snac, edition: edition }.delete_if { |k,v| v.blank? }
-      if location
-        options[:latitude]  = location.lat
-        options[:longitude] = location.lon
-      end
-      options
+  def artefact_options(snac, location, edition)
+    options = { snac: snac, edition: edition }.delete_if { |_k, v| v.blank? }
+    if location
+      options[:latitude]  = location.lat
+      options[:longitude] = location.lon
     end
+    options
+  end
 end

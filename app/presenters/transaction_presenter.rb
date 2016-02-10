@@ -1,5 +1,4 @@
 class TransactionPresenter
-
   def initialize(transaction)
     @transaction = transaction
   end
@@ -26,7 +25,7 @@ class TransactionPresenter
   end
 
   # attr_accessor stuff to allow overriding the data file in tests
-  @new_window_transactions_file = Rails.root.join('lib','data','new_window_transactions.json')
+  @new_window_transactions_file = Rails.root.join('lib', 'data', 'new_window_transactions.json')
   class << self
     attr_reader :new_window_transactions_file
   end
@@ -36,6 +35,6 @@ class TransactionPresenter
   end
 
   def self.new_window_transactions
-    @new_window_transactions ||= JSON.parse( File.read( @new_window_transactions_file ) )["new-window"]
+    @new_window_transactions ||= JSON.parse(File.read(@new_window_transactions_file))["new-window"]
   end
 end

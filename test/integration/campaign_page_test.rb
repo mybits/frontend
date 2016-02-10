@@ -1,9 +1,7 @@
 require 'integration_test_helper'
 
 class CampaignPageTest < ActionDispatch::IntegrationTest
-
   should "render a campaign page correctly" do
-
     setup_api_responses('britain-is-great')
     visit "/britain-is-great"
 
@@ -24,11 +22,9 @@ class CampaignPageTest < ActionDispatch::IntegrationTest
     assert_equal "Britain is GREAT campaign", page.find("meta[@name='description']", visible: false)[:content]
 
     assert page.has_selector?(shared_component_selector('beta_label'))
-
   end
 
   should "render a campaign page with a custom logo" do
-
     setup_api_responses('floods-destroy')
     visit "/floods-destroy"
 
@@ -41,6 +37,4 @@ class CampaignPageTest < ActionDispatch::IntegrationTest
     assert_equal "/frontend/campaign/custom-logos/environment-agency.png", organisation_link.find('img')["src"]
     assert_equal "Environment Agency", organisation_link.find('img')["alt"]
   end
-
-
 end

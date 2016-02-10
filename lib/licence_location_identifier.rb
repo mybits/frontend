@@ -9,7 +9,7 @@ class LicenceLocationIdentifier < LocationIdentifier
       [area["type"], area["ons"]]
     end
 
-    if artefact and providing_tier = artefact["details"].try(:[], "licence").try(:[], "local_service").try(:[], "providing_tier")
+    if artefact && providing_tier = artefact["details"].try(:[], "licence").try(:[], "local_service").try(:[], "providing_tier")
       councils_by_tier = Hash[councils.collect do |k, v|
         [self.identify_tier(k), v]
       end]
