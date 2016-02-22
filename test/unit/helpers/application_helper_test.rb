@@ -40,7 +40,7 @@ class ApplicationHelperTest < ActionView::TestCase
     end
 
     should "mark travel advice as a guide" do
-      travel_advice_edition = OpenStruct.new(:format => 'travel-advice')
+      travel_advice_edition = OpenStruct.new(:format => 'travel_advice')
       assert @helper.wrapper_class(travel_advice_edition).split.include?('guide')
     end
   end
