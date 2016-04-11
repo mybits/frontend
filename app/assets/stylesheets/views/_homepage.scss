@@ -69,6 +69,19 @@ body.homepage {
   }
 }
 
+#global-bar-homepage {
+  padding: $gutter-half 0;
+  background-color: $light-blue-25;
+
+  .global-bar-homepage-message {
+    @extend %site-width-container;
+
+    @include core-19;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 .root-index {
   // Generic objects for the homepage
   .inner-block {

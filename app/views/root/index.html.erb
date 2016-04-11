@@ -5,7 +5,14 @@
 <% content_for :title, "Welcome to GOV.UK" %>
 <% content_for :body_classes, "homepage" %>
 
-<%= render :partial => "campaign_notification" %>
+<% @campaign_notification = capture do %>
+  <%= render :partial => "campaign_notification" %>
+<% end %>
+
+<% if @campaign_notification.present? %>
+  <%= @campaign_notification %>
+<% end %>
+
 <main id="content" class="root-index" role="main">
   <header class="homepage-top">
     <div class="homepage-top-inner">
@@ -42,6 +49,12 @@
       </div>
     </div>
   </header>
+
+  <% unless @campaign_notification.present? %>
+  <div id="global-bar-homepage">
+    <p class="global-bar-homepage-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aaenean mattis turpis dolor, eu varius ligula porttitor vel prasent. <a href="">Call to action</a></p>
+  </div>
+  <% end %>
 
   <div id="homepage" class="homepage-content">
     <div class="homepage-content-inner">
