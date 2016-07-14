@@ -350,10 +350,11 @@ main.no-results-term {
 .suggested-links-box {
   background: $govuk-blue;
   color: $white;
-  padding: 5px 15px;
+  padding: 15px 5px 30px 35px;
 
   h2 {
     @include bold-24;
+    margin-bottom: 15px;
   }
 
   .column-half {
@@ -363,11 +364,12 @@ main.no-results-term {
 
   .numbered-list {
     list-style-type: decimal;
-    list-style-position: inside;
     padding: 0;
+    margin: 0;
 
     li {
       padding-bottom: 15px;
     }
   }
+
 }
