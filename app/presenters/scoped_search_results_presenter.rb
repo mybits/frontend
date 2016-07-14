@@ -50,4 +50,8 @@ private
     ScopedResult.new(search_parameters, result)
   end
 
+  def include_popular_results_block?
+    false
+  end
+
 end
