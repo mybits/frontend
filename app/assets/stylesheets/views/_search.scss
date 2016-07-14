@@ -346,3 +346,21 @@ main.no-results-term {
     }
   }
 }
+
+.suggested-links-box {
+  background: $govuk-blue;
+  color: $white;
+
+  h2 {
+    @include bold-27;
+  }
+
+  .column-half {
+    @include grid-column( 1/2 );
+    @include core-24;
+  }
+
+  .numbered-list {
+    list-style-type: decimal;
+  }
+}

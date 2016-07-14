@@ -13,6 +13,7 @@
 
 {{#results_any?}}
   <ol class="results-list{{#debug_score}} debug{{/debug_score}}" id="js-live-search-results" start="{{first_result_number}}">
+    {{>search/_popular_results_block}}
     {{#results}}
       {{#is_multiple_results}}
         {{>search/_sublist}}
