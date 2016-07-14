@@ -350,17 +350,24 @@ main.no-results-term {
 .suggested-links-box {
   background: $govuk-blue;
   color: $white;
+  padding: 5px 15px;
 
   h2 {
-    @include bold-27;
+    @include bold-24;
   }
 
   .column-half {
     @include grid-column( 1/2 );
-    @include core-24;
+    @include core-19;
   }
 
   .numbered-list {
     list-style-type: decimal;
+    list-style-position: inside;
+    padding: 0;
+
+    li {
+      padding-bottom: 15px;
+    }
   }
 }
