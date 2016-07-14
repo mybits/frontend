@@ -12,8 +12,16 @@
 </div>
 
 {{#results_any?}}
-  {{>search/_popular_results_block}}
-  <ol class="results-list{{#debug_score}} debug{{/debug_score}}" id="js-live-search-results" start="{{first_result_number}}">
+  {{#include_popular_results_block}}
+    <ol class="results-list{{#debug_score}} debug{{/debug_score}}" id="js-top-result" start="{{first_result_number}}">
+      {{#first_result}}
+        {{>search/_result}}
+      {{/first_result}}
+    </ol>
+    {{>search/_popular_results_block}}
+  {{/include_popular_results_block}}
+
+  <ol class="results-list{{#debug_score}} debug{{/debug_score}}" id="js-live-search-results" start="{{second_result_number}}">
     {{#results}}
       {{#is_multiple_results}}
         {{>search/_sublist}}

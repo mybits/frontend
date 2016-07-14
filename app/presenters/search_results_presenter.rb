@@ -14,12 +14,20 @@ class SearchResultsPresenter
   end
 
   def to_hash
+    any_results = results.any?
+    if include_popular_results_block?
+      first_result = results.shift
+    else
+      first_result = nil
+    end
+
     {
-      query: search_parameters.search_term,
+      query: search_term,
       result_count: result_count,
       result_count_string: result_count_string(result_count),
-      results_any?: results.any?,
       results: results,
+      results_any?: any_results,
+      first_result: first_result,
       filter_fields: filter_fields,
       debug_score: search_parameters.debug_score,
       has_next_page?: has_next_page?,
@@ -29,6 +37,8 @@ class SearchResultsPresenter
       previous_page_link: previous_page_link,
       previous_page_label: previous_page_label,
       first_result_number: (search_parameters.start + 1),
+      second_result_number: (search_parameters.start + 2),
+      include_popular_results_block: include_popular_results_block?,
     }
   end
 
@@ -71,7 +81,7 @@ class SearchResultsPresenter
   end
 
   def results
-    search_response["results"].map { |result| build_result(result).to_hash }
+    @results ||= search_response["results"].map { |result| build_result(result).to_hash }
   end
 
   def build_result(result)
@@ -143,6 +153,10 @@ private
     (result_count.to_f / search_parameters.count.to_f).ceil
   end
 
+  def search_term
+    search_parameters.search_term
+  end
+
   def current_page_number
     # if start is zero, then we must be on the first page
     return 1 if search_parameters.start == 0
@@ -158,5 +172,9 @@ private
 
   def previous_page_number
     current_page_number - 1
+  end
+
+  def include_popular_results_block?
+    search_term.downcase == 'education'
   end
 end
