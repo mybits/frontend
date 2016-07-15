@@ -22,10 +22,10 @@ class SearchController < ApplicationController
       @results = ScopedSearchResultsPresenter.new(search_response, search_params)
     else
       if @search_term.downcase == 'education'
-        popular_results = rummager_adapter.unified_search(filter_taxons: ['education'])
+        popular_results_response = rummager_adapter.unified_search(filter_taxons: ['education'])
       end
 
-      @results = SearchResultsPresenter.new(search_response, search_params, popular_results: popular_results)
+      @results = SearchResultsPresenter.new(search_response, search_params, popular_results_response: popular_results_response)
     end
 
     @facets = search_response["facets"]

@@ -8,10 +8,10 @@ class SearchResultsPresenter
     "specialist_sectors" => "Topics",
   }
 
-  def initialize(search_response, search_parameters, popular_results: nil)
+  def initialize(search_response, search_parameters, popular_results_response: nil)
     @search_response = search_response
     @search_parameters = search_parameters
-    @popular_results = popular_results
+    @popular_results_response = popular_results_response
   end
 
   def to_hash
@@ -40,6 +40,7 @@ class SearchResultsPresenter
       first_result_number: (search_parameters.start + 1),
       second_result_number: (search_parameters.start + 2),
       include_popular_results_block: include_popular_results_block?,
+      popular_results: popular_results,
     }
   end
 
@@ -83,6 +84,12 @@ class SearchResultsPresenter
 
   def results
     @results ||= search_response["results"].map { |result| build_result(result).to_hash }
+  end
+
+  def popular_results
+    unless popular_results_response.nil?
+      @popular_results ||= popular_results_response["results"].map { |result| build_result(result).to_hash }
+    end
   end
 
   def build_result(result)
@@ -132,7 +139,7 @@ class SearchResultsPresenter
 
 private
 
-  attr_reader :search_parameters, :search_response
+  attr_reader :search_parameters, :search_response, :popular_results_response
 
   def next_page_start
     if has_next_page?
@@ -176,6 +183,6 @@ private
   end
 
   def include_popular_results_block?
-    @popular_results.present?
+    @popular_results_response.present?
   end
 end

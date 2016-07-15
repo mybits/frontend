@@ -192,22 +192,63 @@ class SearchResultsPresenterTest < ActiveSupport::TestCase
         "results" => [ { "link" => "second_example/link" } ],
         "facets" => {}
       }
-      params = {
-        q: "education",
-      }
-      presenter = SearchResultsPresenter.new(results, params, popular_results:popular_results)
+      params = SearchParameters.new({
+        q: 'education',
+      })
+      presenter = SearchResultsPresenter.new(results, params, popular_results_response: popular_results)
 
-      assert presenter.to_hash[:include_popular_results_block]
-
+      assert_not presenter.to_hash[:first_result].nil?
     end
 
     should "include the popular results array" do
+      results = {
+        "total" => 1,
+        "results" => [ { "link" => "first_example/link" } ],
+        "facets" => {}
+      }
+      popular_results = {
+        "total" => 1,
+        "results" => [ { "link" => "second_example/link" } ],
+        "facets" => {}
+      }
+      params = SearchParameters.new({
+        q: 'education',
+      })
+      presenter = SearchResultsPresenter.new(results, params, popular_results_response: popular_results)
 
+      assert presenter.to_hash[:include_popular_results_block]
+      assert_not presenter.to_hash[:popular_results].nil?
     end
   end
 
   context "when there is not a popular result box" do
     should "keep everything in the main result list" do
+      results = {
+        "total" => 1,
+        "results" => [ { "link" => "first_example/link" } ],
+        "facets" => {}
+      }
+      params = SearchParameters.new({
+        q: 'tax',
+      })
+      presenter = SearchResultsPresenter.new(results, params)
+
+      assert presenter.to_hash[:first_result].nil?
+    end
+
+    should "not include the popular results array" do
+      results = {
+        "total" => 1,
+        "results" => [ { "link" => "first_example/link" } ],
+        "facets" => {}
+      }
+      params = SearchParameters.new({
+        q: 'tax',
+      })
+      presenter = SearchResultsPresenter.new(results, params)
+
+      assert_not presenter.to_hash[:include_popular_results_block]
+      assert presenter.to_hash[:popular_results].nil?
     end
   end
 
