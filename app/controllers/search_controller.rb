@@ -21,7 +21,11 @@ class SearchController < ApplicationController
     if (search_response["scope"].present?)
       @results = ScopedSearchResultsPresenter.new(search_response, search_params)
     else
-      @results = SearchResultsPresenter.new(search_response, search_params)
+      if @search_term.downcase == 'education'
+        popular_results = rummager_adapter.unified_search(filter_taxons: ['education'])
+      end
+
+      @results = SearchResultsPresenter.new(search_response, search_params, popular_results: popular_results)
     end
 
     @facets = search_response["facets"]
@@ -41,6 +45,10 @@ protected
 
   def search_client
     Frontend.search_client
+  end
+
+  def rummager_adapter
+    Frontend.rummager_adapter
   end
 
   def remove_search_box

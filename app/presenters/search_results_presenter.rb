@@ -8,9 +8,10 @@ class SearchResultsPresenter
     "specialist_sectors" => "Topics",
   }
 
-  def initialize(search_response, search_parameters)
+  def initialize(search_response, search_parameters, popular_results: nil)
     @search_response = search_response
     @search_parameters = search_parameters
+    @popular_results = popular_results
   end
 
   def to_hash
@@ -175,6 +176,6 @@ private
   end
 
   def include_popular_results_block?
-    search_term.downcase == 'education'
+    @popular_results.present?
   end
 end
