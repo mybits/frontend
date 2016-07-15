@@ -182,6 +182,23 @@ class SearchResultsPresenterTest < ActiveSupport::TestCase
   context "when there is a popular result box" do
     should "present the first result from the main result list separately" do
       # this is so we can embed the box in the middle
+      results = {
+        "total" => 1,
+        "results" => [ { "link" => "first_example/link" } ],
+        "facets" => {}
+      }
+      popular_results = {
+        "total" => 1,
+        "results" => [ { "link" => "second_example/link" } ],
+        "facets" => {}
+      }
+      params = {
+        q: "education",
+      }
+      presenter = SearchResultsPresenter.new(results, params, popular_results:popular_results)
+
+      assert presenter.to_hash[:include_popular_results_block]
+
     end
 
     should "include the popular results array" do
