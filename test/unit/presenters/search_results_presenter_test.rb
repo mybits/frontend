@@ -179,6 +179,21 @@ class SearchResultsPresenterTest < ActiveSupport::TestCase
     end
   end
 
+  context "when there is a popular result box" do
+    should "present the first result from the main result list separately" do
+      # this is so we can embed the box in the middle
+    end
+
+    should "include the popular results array" do
+
+    end
+  end
+
+  context "when there is not a popular result box" do
+    should "keep everything in the main result list" do
+    end
+  end
+
   context 'grouping' do
     should "not have metadata for group results" do
       results = SearchResultsPresenter.new({
