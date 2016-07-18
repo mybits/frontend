@@ -40,7 +40,8 @@ class SearchResultsPresenter
       first_result_number: (search_parameters.start + 1),
       second_result_number: (search_parameters.start + 2),
       include_popular_results_block: include_popular_results_block?,
-      popular_results: popular_results,
+      popular_results_1: popular_results_1,
+      popular_results_2: popular_results_2,
     }
   end
 
@@ -86,9 +87,17 @@ class SearchResultsPresenter
     @results ||= search_response["results"].map { |result| build_result(result).to_hash }
   end
 
-  def popular_results
-    unless popular_results_response.nil?
-      @popular_results ||= popular_results_response["results"].map { |result| build_result(result).to_hash }
+  def popular_results_1
+    # First three popular results
+    unless @popular_results_response.nil?
+      @popular_results_1 ||= popular_results_response["results"][0, 3].map { |result| build_popular_result(result).to_hash }
+    end
+  end
+
+  def popular_results_2
+    # Second three popular results
+    unless @popular_results_response.nil?
+      @popular_results_2 ||= popular_results_response["results"][2, 3].map { |result| build_popular_result(result).to_hash }
     end
   end
 
@@ -102,6 +111,10 @@ class SearchResultsPresenter
     else
       SearchResult.new(search_parameters, result)
     end
+  end
+
+  def build_popular_result(result)
+    PopularResult.new(search_parameters, result)
   end
 
   def has_next_page?
