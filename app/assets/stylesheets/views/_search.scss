@@ -350,11 +350,23 @@ main.no-results-term {
 .suggested-links-box {
   background: $govuk-blue;
   color: $white;
-  padding: 15px 35px;
+  padding: 20px 10px 30px 35px;
 
   h2 {
     @include bold-24;
     margin-bottom: 15px;
+  }
+
+  a {
+    color: $white;
+    text-decoration: none;
+    &:active,
+    &:hover {
+      text-decoration: underline;
+    }
+    &:focus {
+      color: $black;
+    }
   }
 
   .column-half {
@@ -369,10 +381,6 @@ main.no-results-term {
 
     li {
       padding-bottom: 15px;
-
-      a {
-        color: $white;
-      }
     }
   }
 }
