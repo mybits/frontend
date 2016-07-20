@@ -350,11 +350,11 @@ main.no-results-term {
 .suggested-links-box {
   background: $govuk-blue;
   color: $white;
-  padding: 20px 10px 30px 35px;
+  padding: 30px 0px 30px 40px;
 
   h2 {
     @include bold-24;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
 
   a {
@@ -372,6 +372,7 @@ main.no-results-term {
   .column-half {
     @include grid-column( 1/2 );
     @include core-19;
+    padding-right: 30px;
   }
 
   .numbered-list {
